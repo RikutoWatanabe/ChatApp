@@ -1,7 +1,8 @@
+var express = require("express");
 var http = require("http");
 var fs = require("fs");
 
-var server = http.createServer( function(req , res){
+var server = module.express = express.createServer( function(req , res){
 	res.writeHead(200, {"Content-Type" : "text/html"});
 	res.end(fs.readFileSync("./index.html","utf-8"));
 }).listen(process.env.PORT || 8080);
