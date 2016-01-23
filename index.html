@@ -4,10 +4,10 @@
 	<title> RiushiruChats</title>
 </head>
 <body>
-	<p> Chat room of Rikushiru </p>
-	user name<input type="text" id="user_input" style="width:100px;"/>
+	<p><font size = "16" color = "#1E90FF"> Chat room of Rikushiru </font></p>
+	<font size = "4">user name</font><input type="text" id="user_input" style="width:100px;"/>
 	<button onclick="publishChangeUsername();">change</button><br>
-	message<input type="text" id="msg_input" style="width:200px;" />
+	<font size="4">message</font><input type="text" id="msg_input" style="width:200px; height:50px;" />
 	<button onclick="publishMessage();">send</button>
 	<div style = "width:50%; height:70%; overflow-y:scroll;">
 	<div id="msg"></div>
@@ -32,7 +32,7 @@
 
     function publishMessage() {
       var textInput = document.getElementById('msg_input');
-      var msg = "[" + myName + "] " + textInput.value;
+      var msg = "[" + myName + "] "  + textInput.value;
       socketio.emit("publish", {value: msg});
       textInput.value = '';
     }
