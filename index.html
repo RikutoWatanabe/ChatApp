@@ -14,7 +14,7 @@
 	<script src="/socket.io/socket.io.js"></script>
 	<script	type="text/javascript">
 	alert("Welcome to Chatroom!");
-	var socketio = io.connect('http://localhost:8080');
+	var socketio = io.connect();
 	socketio.on("connected" , function(name) {});
 	socketio.on("publish",function (data) {addMessage(data.value);});
 	socketio.on("disconnect" , function () {});
