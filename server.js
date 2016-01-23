@@ -1,6 +1,7 @@
 var express = require("express");
 var http = require("http");
 var fs = require("fs");
+var app = module.exports.app = express();
 
 /*
 var server = module.express = express.createServer( function(req , res){
@@ -9,18 +10,24 @@ var server = module.express = express.createServer( function(req , res){
 }).listen(process.env.PORT || 8080); 
 */
 
-var server = express();
-server.set("port" , (process.env.PORT || 8080));
+var server = http.createServer(app);
+server.listen(process.env.PORT || 8080);
+
+app.get('/', function (req, res) {
+  res.sendfile(__dirname + '/index.html');
+});
 
 console.log("Server listening...");
-console.log("Express server listening on port %d in %s mode", server.address().port, server.settings.env);
+//console.log("Express server listening on port %d in %s mode", server.address().port, server.settings.env);
 
 var io = require("socket.io").listen(server);
-
-	io.configure(function(){
-    	io.set('transports', ['xhr-polling']);
-    	io.set('polling duration', 10);
-	});
+	if(process.env.XHR){
+	  console.log("use xhr-polling");
+		io.configure(function(){
+    		io.set('transports', ['xhr-polling']);
+    		io.set('polling duration', 10);
+		});
+	}
 
 //user collection
 var userHash = {};
