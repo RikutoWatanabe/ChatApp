@@ -29,7 +29,7 @@
 		<font size = "4">user name</font>
 		<!--<form class="form-inline">-->
 			<div class="form-group">
-				<input type="text" id="user_input" class = "form-control" placeholder = "What your name?" style="width:100px;"/>
+				<input type="text" id="user_input" class = "form-control" placeholder = "What your name?" onkeypress="key_user(event.keyCode);" style="width:100px;"/>
 			</div>
 			<div class="form-group">
 				<button onclick="publishChangeUsername();" class ="btn btn-primary">change</button><br>
@@ -38,7 +38,8 @@
 		<font size="4">message</font>
 		<!--<form class= "form-inline">-->
 			<div class="form-group">
-				<input type="text" id="msg_input" style="width:200px; height:50px;" placeholder="What are you thinking?" />
+				<input type="text"id="msg_input"style="width:200px; height:50px;"
+				placeholder="What are you thinking?"onkeypress="key(event.keyCode);" />
 			</div>
 			<div class="form-group">
 				<button onclick="publishMessage();" class="btn btn-primary">send</button>
@@ -89,13 +90,23 @@
 	    }
 
 	    function escapeHtml(str) {
-	    str = str.replace(/&/g, '&amp;');
-	    str = str.replace(/</g, '&lt;');
- 	    str = str.replace(/>/g, '&gt;');
-    	str = str.replace(/"/g, '&quot;');
-    	str = str.replace(/'/g, '&#39;');
+	   		str = str.replace(/&/g, '&amp;');
+	    	str = str.replace(/</g, '&lt;');
+ 	    	str = str.replace(/>/g, '&gt;');
+    		str = str.replace(/"/g, '&quot;');
+    		str = str.replace(/'/g, '&#39;');
     	return str;
-	}
+		}
+		function key(e){
+			if(e===13){
+				publishMessage();
+			}
+		}
+		function key_user(e){
+			if(e===13){
+				publishChangeUsername();
+			}
+		}
 
 		var msgArea = document.getElementById("msg");
 		var myName = Math.floor(Math.random()*100);
