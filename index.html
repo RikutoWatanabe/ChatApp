@@ -66,16 +66,20 @@
 	    }
 	    function publishChangeUsername() {
 	    	var textInput = document.getElementById('user_input');
-	    	var msg = "[" + myName + "] were changed user neme to [" + textInput.value +"]";
-	    	myName = textInput.value; 
-	    	socketio.emit("change", textInput.value , {value: msg});
+	    	if(textInput.value != ""){
+		    	var msg = escapeHtml("[" + myName + "] were changed user neme to [" + textInput.value +"]");
+		    	myName = textInput.value; 
+		    	socketio.emit("change", textInput.value , {value: msg});
+	    	}
 	    }
 
 	    function publishMessage() {
 	      var textInput = document.getElementById('msg_input');
-	      var msg = "[" + myName + "] "  + textInput.value;
-	      socketio.emit("publish", {value: msg});
-	      textInput.value = '';
+	      if(textInput.value != ""){
+		      var msg = escapeHtml("[" + myName + "] "  + textInput.value);
+		      socketio.emit("publish", {value: msg});
+		      textInput.value = '';
+		     }
 	    }
 
 	    function addMessage (msg) {
@@ -83,6 +87,15 @@
 	      domMeg.innerHTML = new Date().toLocaleTimeString() + ' ' + msg;
 	      msgArea.appendChild(domMeg);
 	    }
+
+	    function escapeHtml(str) {
+	    str = str.replace(/&/g, '&amp;');
+	    str = str.replace(/</g, '&lt;');
+ 	    str = str.replace(/>/g, '&gt;');
+    	str = str.replace(/"/g, '&quot;');
+    	str = str.replace(/'/g, '&#39;');
+    	return str;
+	}
 
 		var msgArea = document.getElementById("msg");
 		var myName = Math.floor(Math.random()*100);

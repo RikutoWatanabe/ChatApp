@@ -58,5 +58,6 @@ io.sockets.on("connection" , function (socket) {
 			io.sockets.emit("publish", {value: msg});
 		}
 	});
+
 });
 
