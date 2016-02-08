@@ -17,6 +17,8 @@ app.get('/', function (req, res) {
   res.sendfile(__dirname + '/index.html');
 });
 
+app.use(express.static("css"));
+
 console.log("Server listening...");
 //console.log("Express server listening on port %d in %s mode", server.address().port, server.settings.env);
 
