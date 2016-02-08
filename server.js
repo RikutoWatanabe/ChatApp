@@ -13,6 +13,7 @@ var server = module.express = express.createServer( function(req , res){
 var server = http.createServer(app);
 server.listen(process.env.PORT || 8080);
 
+app.use(express.static("css"));
 app.get('/', function (req, res) {
   res.sendfile(__dirname + '/index.html');
 });
