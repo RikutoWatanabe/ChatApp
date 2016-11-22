@@ -3,7 +3,7 @@ var http = require("http");
 var fs = require("fs");
 var app = module.exports.app = express();
 var mongoose = require("mongoose");
-mongoose.connect(process.env.MONGOHQ_URL || 'mongodb://localhost:27017/chat');
+mongoose.connect(process.env.MONGOLAB_URI || 'mongodb://localhost:27017/chat');
 
 
 /*
