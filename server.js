@@ -2,6 +2,9 @@ var express = require("express");
 var http = require("http");
 var fs = require("fs");
 var app = module.exports.app = express();
+var mongoose = require("mongoose");
+mongoose.connect(process.env.MONGOHQ_URL || 'mongodb://localhost:27017/chat');
+
 
 /*
 var server = module.express = express.createServer( function(req , res){
@@ -38,7 +41,12 @@ var userHash = {};
 io.sockets.on("connection" , function (socket) {
 
 	//start conection
-	socket.on("connected", function (name) {
+	socket.on("connected", function (name , use) {
+		//
+		collection.find(function(err,docs){
+			io.sockets.emit("openmsg",docs);
+		}).limit(10).sort({'date':-1});
+		//
 		var msg = "[" + name + "] entered.";
 		userHash[socket.id] = name;
 		io.sockets.emit("publish",{value: msg});
@@ -46,6 +54,17 @@ io.sockets.on("connection" , function (socket) {
 	//send message
 	socket.on("publish" , function (data) {
 		io.sockets.emit("publish", {value:data.value});
+		var date_now = new Date().toLocaleTimeString();
+		console.log(date_now);
+		push = new collection();
+		push.msg = data.value;
+		push.date = date_now;
+		push.save(function (err){  
+		  if(err){
+    		return console.error(err);
+  		}
+  		console.log("data insert");
+  		});
 	});
 	//change username
 	socket.on("change" , function (user , data){
@@ -62,4 +81,32 @@ io.sockets.on("connection" , function (socket) {
 	});
 
 });
+
+var chatschema = mongoose.Schema({
+	msg : String,
+	date : String
+});
+
+var collection = mongoose.model('mycollections', chatschema);
+
+
+//db connection
+mongoose.connection.on("connected", function(){
+	console.log("mongodb connected.");
+});
+//connection error
+mongoose.connection.on( 'error', function(err){  
+    console.log('failed to connect a mongo db : ' + err );
+});
+//db disconnect
+mongoose.connection.on( 'disconnected', function(){  
+    console.log( 'disconnected.' );
+});
+
+mongoose.connection.on( 'close', function(){  
+    console.log( 'connection closed.' );
+});
+
+
+
 
