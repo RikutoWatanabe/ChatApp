@@ -3,8 +3,8 @@ var http = require("http");
 var fs = require("fs");
 var app = module.exports.app = express();
 var mongoose = require("mongoose");
-mongoose.connect("mongodb://heroku_5p64sqwx:i0rdn56ach0hs61oltf31me9ht@ds153677.mlab.com:53677/heroku_5p64sqwx" || 'mongodb://localhost:27017/chat');
-
+//mongoose.connect("mongodb://heroku_5p64sqwx:i0rdn56ach0hs61oltf31me9ht@ds153677.mlab.com:53677/heroku_5p64sqwx" || 'mongodb://localhost:27017/chat');
+mongoose.connect(process.env.MONGODB_URI|| 'mongodb://localhost:27017/chat');
 
 /*
 var server = module.express = express.createServer( function(req , res){
@@ -41,7 +41,7 @@ var userHash = {};
 io.sockets.on("connection" , function (socket) {
 
 	//start conection
-	socket.on("connected", function (name , use) {
+	socket.on("connected", function (name) {
 		//
 		collection.find(function(err,docs){
 			io.sockets.emit("openmsg",docs);
