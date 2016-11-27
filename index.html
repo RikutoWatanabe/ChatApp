@@ -66,12 +66,15 @@
 				$("#msg").empty();
 				$("#msg").prepend("Welcome your join. You are name is [" + myName + "]"+"<br>");
 				$.each(msg,function(key,value){
-					$("#msg").prepend(value.date +" " + value.msg + "<br>");
+					d = new Date(value.date);
+					$("#msg").prepend(d.toLocaleTimeString("ja-JP",options) +" " + value.msg + "<br>");
 				});
 			}
 		});
 		socketio.on("disconnect" , function () {});
 
+		var options = { weekday: "long", year: "numeric", month: "short",
+    		day: "numeric" }
 
 		function start(name) {
 	      socketio.emit("connected", name);
@@ -96,8 +99,6 @@
 
 	    function addMessage (msg) {
 	      var domMeg = document.createElement('div');
-	      var options = { weekday: "long", year: "numeric", month: "short",
-    		day: "numeric" }
 	      domMeg.innerHTML = new Date().toLocaleTimeString("ja-JP",options) + ' ' + msg;
 	      msgArea.appendChild(domMeg);
 	    }

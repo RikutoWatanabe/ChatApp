@@ -75,7 +75,7 @@ io.sockets.on("connection" , function (socket) {
 
 var chatschema = mongoose.Schema({
 	msg : String,
-	date : String
+	date : Date//String
 });
 
 var collection = mongoose.model('mycollections', chatschema);
@@ -85,7 +85,7 @@ var options = { weekday: "long", year: "numeric", month: "short",
 
 function adddb(msg,collection){
 		collection.msg = msg;
-		collection.date = new Date().toLocaleTimeString("ja-JP",options);
+		collection.date = new Date();/*.toLocaleTimeString("ja-JP",options);*/
 		collection.save(function (err){  
 		  if(err){
     		return console.error(err);
