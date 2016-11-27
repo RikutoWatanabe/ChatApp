@@ -96,7 +96,9 @@
 
 	    function addMessage (msg) {
 	      var domMeg = document.createElement('div');
-	      domMeg.innerHTML = new Date().toLocaleTimeString() + ' ' + msg;
+	      var options = { weekday: "long", year: "numeric", month: "short",
+    		day: "numeric" }
+	      domMeg.innerHTML = new Date().toLocaleTimeString("ja-JP",options) + ' ' + msg;
 	      msgArea.appendChild(domMeg);
 	    }
 
@@ -121,8 +123,8 @@
 
 		var msgArea = document.getElementById("msg");
 		var myName = Math.floor(Math.random()*100);
-		addMessage("Welcome your join. You are name is [" + myName + "]");
 		start(myName);
+		addMessage("Welcome your join. You are name is [" + myName + "]");
 		</script>
 		</div>
 	</div>
