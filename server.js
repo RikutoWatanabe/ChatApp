@@ -66,6 +66,9 @@ io.sockets.on("connection" , function (socket) {
 	socket.on("disconnect" , function () {
 		if(userHash[socket.id]){
 			var msg = "[" + userHash[socket.id] + "]" + " exited.";
+			var push = new collection();
+			adddb(msg,push);
+
 			delete userHash[socket.id];
 			io.sockets.emit("publish", {value: msg});
 		}
