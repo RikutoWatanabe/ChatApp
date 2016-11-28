@@ -60,6 +60,8 @@ io.sockets.on("connection" , function (socket) {
 	//change username
 	socket.on("change" , function (user , data){
 		userHash[socket.id] = user;
+		push = new	collection();
+		adddb(data.value,push);
 		io.sockets.emit("publish",{value:data.value});
 	});
 	//disconnect
@@ -88,7 +90,7 @@ var options = { weekday: "long", year: "numeric", month: "short",
 
 function adddb(msg,collection){
 		collection.msg = msg;
-		collection.date = new Date();/*.toLocaleTimeString("ja-JP",options);*/
+		collection.date = new Date();
 		collection.save(function (err){  
 		  if(err){
     		return console.error(err);
