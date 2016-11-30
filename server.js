@@ -22,7 +22,6 @@ app.get('/', function (req, res) {
 });
 
 console.log("Server listening...");
-//console.log("Express server listening on port %d in %s mode", server.address().port, server.settings.env);
 
 var io = require("socket.io").listen(server);
 	if(process.env.XHR){
@@ -35,6 +34,7 @@ var io = require("socket.io").listen(server);
 
 //user collection
 var userHash = {};
+var count_connect = 0;
 
 //define of ivent
 io.sockets.on("connection" , function (socket) {
@@ -43,9 +43,10 @@ io.sockets.on("connection" , function (socket) {
 	socket.on("connected", function (name) {
 		var msg = "[" + name + "] entered.";
 		userHash[socket.id] = name;
+		count_connect++;
 		//
 		collection.find(function(err,docs){
-			io.sockets.emit("openmsg",docs);
+			io.sockets.emit("openmsg",docs,count_connect);
 		}).limit(10).sort({'date':-1});
 		//
 		io.sockets.emit("publish",{value: msg});
@@ -67,12 +68,13 @@ io.sockets.on("connection" , function (socket) {
 	//disconnect
 	socket.on("disconnect" , function () {
 		if(userHash[socket.id]){
+			count_connect--;
 			var msg = "[" + userHash[socket.id] + "]" + " exited.";
 			var push = new collection();
 			adddb(msg,push);
 
 			delete userHash[socket.id];
-			io.sockets.emit("publish", {value: msg});
+			io.sockets.emit("publish_disconnect", {value: msg},count_connect);
 		}
 	});
 

@@ -60,18 +60,23 @@
 		var socketio = io.connect();
 		socketio.on("connected" , function(name) {});
 		socketio.on("publish",function (data) {addMessage(data.value);});
-		socketio.on("openmsg",function(msg){
+		socketio.on("openmsg",function (msg,count_connect){
 			if(msg.length == 0)return 0;
 			else{
 				$("#msg").empty();
 				$("#msg").prepend("Welcome your join. You are name is [" + myName + "]"+"<br>");
+				$("#msg").prepend("Now connecting "+ count_connect + "人"+"<br>");
 				$.each(msg,function(key,value){
 					d = new Date(value.date);
 					$("#msg").prepend(d.toLocaleTimeString("ja-JP",options) +" " + value.msg + "<br>");
 				});
 			}
 		});
+		socketio.on("publish_disconnect",function (data,count_connect) {
+			addMessage(data.value);
+		});
 		socketio.on("disconnect" , function () {});
+
 
 		var options = { weekday: "long", year: "numeric", month: "short",
     		day: "numeric" }
